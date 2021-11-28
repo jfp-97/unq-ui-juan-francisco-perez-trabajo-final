@@ -1,3 +1,10 @@
-.card {
-  width: 1rem;
+.cardContainer {
+  height: 5rem;
+  background-color: silver;
+  width: 4rem;
+}
+
+.cardContent {
+  width: 3rem;
+  padding: 0.3rem;
 }
