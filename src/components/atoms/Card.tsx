@@ -1,15 +1,13 @@
-import { useState } from 'react'
 import './Card.css'
 
 interface CardProps {
   src: string
   boardLocked: boolean
+  covered: boolean
   handleClick: any
 }
 
 const Card = (props: CardProps) => {
-  const [covered, setCovered] = useState(true)
-
   return (
     <div
       className='cardContainer'
@@ -18,11 +16,10 @@ const Card = (props: CardProps) => {
           ? () => {}
           : () => {
               props.handleClick()
-              setCovered(!covered)
             }
       }
     >
-      {covered ? null : (
+      {props.covered ? null : (
         <img className='cardContent' src={props.src} alt='asd' />
       )}
     </div>
