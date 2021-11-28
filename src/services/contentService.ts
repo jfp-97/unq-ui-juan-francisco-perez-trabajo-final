@@ -5,7 +5,7 @@ interface Country {
   flags: { png: string }
 }
 
-const countries = (amount: number) => {
+const getCountries = (amount: number) => {
   return axios
     .get<Country[]>('https://restcountries.com/v3.1/all')
     .then((response): Pair<string>[] => {
@@ -18,4 +18,4 @@ const countries = (amount: number) => {
     })
 }
 
-export default countries
+export default getCountries

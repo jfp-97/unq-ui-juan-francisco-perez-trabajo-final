@@ -2,9 +2,9 @@
 
 ## Cómo correr este juego de manera local en tu computadora
 
-- Instalar Git: https://git-scm.com/downloads
+- Instalar Git: https://git-scm.com/downloads.
 
-- Instalar Node: https://nodejs.org
+- Instalar Node: https://nodejs.org.
 
 - Clonar e instalar el proyecto:
 
@@ -19,3 +19,5 @@ $ npm install
 ```
 $ npm start
 ```
+
+- Necesitás una conexión a internet para jugar, incluso de manera local.

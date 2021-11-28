@@ -2,23 +2,13 @@ import './Card.css'
 
 interface CardProps {
   src: string
-  boardLocked: boolean
   covered: boolean
-  handleClick: any
+  handleClick: () => void
 }
 
 const Card = (props: CardProps) => {
   return (
-    <div
-      className='cardContainer'
-      onClick={
-        props.boardLocked
-          ? () => {}
-          : () => {
-              props.handleClick()
-            }
-      }
-    >
+    <div className='cardContainer' onClick={props.handleClick}>
       {props.covered ? null : (
         <img className='cardContent' src={props.src} alt='asd' />
       )}

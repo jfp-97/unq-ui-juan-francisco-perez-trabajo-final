@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import countries from '../../services/contentService'
+import getCountries from '../../services/contentService'
 import { Pair } from '../../types/pair'
 import Card from '../atoms/Card'
 import './Board.css'
@@ -16,7 +16,7 @@ interface BoardItem {
 const Board = () => {
   const [boardItems, setBoardItems] = useState<BoardItem[]>([])
   const [boardLocked, setBoardLocked] = useState(false)
-  const [uncovered, setUncovered] = useState(0)
+  const [awaitingPlay, setAwaitingPlay] = useState(false)
 
   useEffect(() => {
     const getBoardItemPair = (
@@ -24,6 +24,33 @@ const Board = () => {
       bSrc: string,
       index: number
     ): Pair<BoardItem> => {
+      const isPairUncovered = (boardItems: BoardItem[], pairId: string) =>
+        boardItems.some((bi: BoardItem) => bi.id === pairId && !bi.covered)
+
+      const setBothAsDone = (
+        boardItems: BoardItem[],
+        id: string,
+        pairId: string
+      ) =>
+        boardItems.map((bi: BoardItem) =>
+          bi.id === id || bi.id === pairId
+            ? { ...bi, done: true, covered: false }
+            : bi
+        )
+
+      const setSelfAsCovered = (boardItems: BoardItem[], id: string) =>
+        boardItems.map((bi: BoardItem) =>
+          bi.id === id ? { ...bi, covered: false } : bi
+        )
+
+      const handleToggle = (id: string, pairId: string) => () => {
+        setBoardItems((boardItems) =>
+          isPairUncovered(boardItems, pairId)
+            ? setBothAsDone(boardItems, id, pairId)
+            : setSelfAsCovered(boardItems, id)
+        )
+      }
+
       const aId: string = index + 'a'
       const bId: string = index + 'b'
 
@@ -34,17 +61,7 @@ const Board = () => {
           src: aSrc,
           covered: true,
           done: false,
-          toggle: () => {
-            setBoardItems((old) =>
-              old.some((bi: BoardItem) => bi.id === bId && !bi.covered)
-                ? old.map((bi: BoardItem) =>
-                    bi.id === aId || bi.id === bId ? { ...bi, done: true } : bi
-                  )
-                : old.map((bi: BoardItem) =>
-                    bi.id === aId ? { ...bi, covered: false } : bi
-                  )
-            )
-          },
+          toggle: handleToggle(aId, bId),
         },
         b: {
           id: bId,
@@ -52,27 +69,12 @@ const Board = () => {
           src: bSrc,
           covered: true,
           done: false,
-          toggle: () => {
-            setBoardItems((old) =>
-              old.map((bi: BoardItem) =>
-                bi.id === bId ? { ...bi, covered: false } : bi
-              )
-            )
-            setBoardItems((old) =>
-              old.some((bi: BoardItem) => bi.id === aId && !bi.covered)
-                ? old.map((bi: BoardItem) =>
-                    bi.id === aId || bi.id === bId ? { ...bi, done: true } : bi
-                  )
-                : old.map((bi: BoardItem) =>
-                    bi.id === bId ? { ...bi, covered: false } : bi
-                  )
-            )
-          },
+          toggle: handleToggle(bId, aId),
         },
       }
     }
 
-    countries(8)
+    getCountries(8)
       .then((countries) => {
         setBoardItems(
           [...countries]
@@ -92,21 +94,21 @@ const Board = () => {
 
   const handleClick = (boardItem: BoardItem) => () => {
     if (boardLocked || !boardItem.covered) return
+
     boardItem.toggle()
-    if (uncovered > 0) {
+
+    if (awaitingPlay) {
       setBoardLocked(true)
+
       setTimeout(() => {
         setBoardLocked(false)
-        setBoardItems((old) =>
-          old.map((bi: BoardItem) => ({
-            ...bi,
-            covered: bi.done ? false : old.some((bi2) => bi2.id === bi.pairId),
-          }))
+        setBoardItems((boardItems) =>
+          boardItems.map((bi: BoardItem) => ({ ...bi, covered: !bi.done }))
         )
-        setUncovered(0)
+        setAwaitingPlay(false)
       }, 2000)
     } else {
-      setUncovered(uncovered + 1)
+      setAwaitingPlay(true)
     }
   }
 
@@ -116,7 +118,6 @@ const Board = () => {
         <Card
           key={index}
           src={bi.src}
-          boardLocked={boardLocked}
           covered={bi.covered}
           handleClick={handleClick(bi)}
         />
