@@ -21,3 +21,7 @@ $ npm start
 ```
 
 - Necesitás una conexión a internet para jugar, incluso de manera local.
+
+## Cómo jugar en la web
+
+El juego se encuentra listo para jugar en este link: https://jfp-memory-game.web.app/
