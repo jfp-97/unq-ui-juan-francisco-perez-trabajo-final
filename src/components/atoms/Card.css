@@ -1,10 +1,22 @@
-.cardContainer {
-  height: 5rem;
+.cardContainerCovered {
+  width: 6rem;
+  height: 7rem;
   background-color: silver;
-  width: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.cardContainerUncovered {
+  width: 6rem;
+  height: 7rem;
+  background-color: lightsteelblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cardContent {
-  width: 3rem;
-  padding: 0.3rem;
+  width: 5rem;
 }

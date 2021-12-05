@@ -22,7 +22,7 @@ const PlayView = () => {
   return (
     <div>
       <Board countries={countries} setGameOver={setGameOver} />
-      {true || gameOver ? (
+      {gameOver ? (
         <div className='board-footer'>
           You win, well done!{'\n'}
           <Button

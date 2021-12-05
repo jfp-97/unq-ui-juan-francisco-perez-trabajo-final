@@ -8,7 +8,12 @@ interface CardProps {
 
 const Card = (props: CardProps) => {
   return (
-    <div className='cardContainer' onClick={props.handleClick}>
+    <div
+      className={
+        props.covered ? 'cardContainerCovered' : 'cardContainerUncovered'
+      }
+      onClick={props.handleClick}
+    >
       {props.covered ? (
         <img
           className='cardContent'
