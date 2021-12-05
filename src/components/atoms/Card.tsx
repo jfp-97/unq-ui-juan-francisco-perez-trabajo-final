@@ -9,7 +9,13 @@ interface CardProps {
 const Card = (props: CardProps) => {
   return (
     <div className='cardContainer' onClick={props.handleClick}>
-      {props.covered ? null : (
+      {props.covered ? (
+        <img
+          className='cardContent'
+          src='https://upload.wikimedia.org/wikipedia/commons/6/61/Flag.svg'
+          alt='asd'
+        />
+      ) : (
         <img className='cardContent' src={props.src} alt='asd' />
       )}
     </div>

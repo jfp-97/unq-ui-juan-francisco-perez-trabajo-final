@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import getCountries from '../../services/contentService'
 import { Pair } from '../../types/pair'
+import Button from '../atoms/Button'
 import Board from '../molecules/Board'
+import './PlayView.css'
 
 const PlayView = () => {
   const [countries, setCountries] = useState<Pair<string>[]>([])
@@ -20,16 +22,15 @@ const PlayView = () => {
   return (
     <div>
       <Board countries={countries} setGameOver={setGameOver} />
-      {gameOver ? (
-        <div>
+      {true || gameOver ? (
+        <div className='board-footer'>
           You win, well done!{'\n'}
-          <div
-            onClick={() => {
+          <Button
+            handleClick={() => {
               fetchCountries().then(() => setGameOver(false))
             }}
-          >
-            Play again
-          </div>
+            text='Play again'
+          />
         </div>
       ) : null}
     </div>

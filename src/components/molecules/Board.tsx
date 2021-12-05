@@ -93,7 +93,9 @@ const Board = (props: BoardProps) => {
   }, [props.countries])
 
   useEffect(() => {
-    props.setGameOver(boardItems.every((bi) => bi.done))
+    props.setGameOver(
+      boardItems.length > 0 && boardItems.every((bi) => bi.done)
+    )
   })
 
   const handleClick = (boardItem: BoardItem) => () => {
