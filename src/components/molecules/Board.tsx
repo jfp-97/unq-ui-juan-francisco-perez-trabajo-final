@@ -13,6 +13,7 @@ interface BoardItem {
 }
 
 interface BoardProps {
+  boardSize: number
   countries: Pair<string>[]
   setGameOver: Dispatch<SetStateAction<boolean>>
 }
@@ -21,6 +22,7 @@ const Board = (props: BoardProps) => {
   const [boardItems, setBoardItems] = useState<BoardItem[]>([])
   const [boardLocked, setBoardLocked] = useState(false)
   const [awaitingPlay, setAwaitingPlay] = useState(false)
+  const boardSize = props.boardSize
 
   const getBoardItemPair = (
     aSrc: string,
@@ -120,7 +122,7 @@ const Board = (props: BoardProps) => {
 
   return (
     <div>
-      <div className='board'>
+      <div className={`board board-${boardSize}`}>
         {boardItems.map((bi, index) => (
           <Card
             key={index}

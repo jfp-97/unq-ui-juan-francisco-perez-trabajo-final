@@ -1,9 +1,18 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 const MainScreen = () => {
+  const navigate = useNavigate()
+
   return (
     <div>
-      <div className='title'>Memory Game</div>
+      <div
+        className='title'
+        onClick={() => {
+          navigate('/')
+        }}
+      >
+        Memory Game
+      </div>
       <Outlet />
     </div>
   )

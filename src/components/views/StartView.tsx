@@ -1,20 +1,27 @@
+import { Dispatch, SetStateAction } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Settings } from '../../App'
 import Button from '../atoms/Button'
 
-const StartView = () => {
+interface StartViewProps {
+  setSettings: Dispatch<SetStateAction<Settings>>
+}
+
+const StartView = ({ setSettings }: StartViewProps) => {
   const navigate = useNavigate()
   return (
     <div className='buttonContainer'>
       <Button
         text={'Quick game'}
         handleClick={() => {
+          setSettings((s: Settings) => ({ ...s, boardSize: 4 }))
           navigate('/play')
         }}
       />
       <Button
         text={'Personalized game'}
         handleClick={() => {
-          navigate('/play')
+          navigate('/settings')
         }}
       />
     </div>

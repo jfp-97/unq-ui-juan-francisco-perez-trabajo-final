@@ -1,33 +1,43 @@
 import { useEffect, useState } from 'react'
+import { Settings } from '../../App'
 import getCountries from '../../services/contentService'
 import { Pair } from '../../types/pair'
 import Button from '../atoms/Button'
 import Board from '../molecules/Board'
 import './PlayView.css'
 
-const PlayView = () => {
+interface PlayViewProps {
+  settings: Settings
+}
+
+const PlayView = (props: PlayViewProps) => {
   const [countries, setCountries] = useState<Pair<string>[]>([])
   const [gameOver, setGameOver] = useState<boolean>(false)
+  const boardSize = props.settings.boardSize
 
-  const fetchCountries = () => {
-    return getCountries(8)
+  const fetchCountries = (size: number) => {
+    return getCountries((size * size) / 2)
       .then((countriesData) => setCountries(countriesData))
       .catch((error) => console.error(error))
   }
 
   useEffect(() => {
-    fetchCountries()
-  }, [])
+    fetchCountries(boardSize)
+  }, [boardSize])
 
   return (
     <div>
-      <Board countries={countries} setGameOver={setGameOver} />
+      <Board
+        boardSize={boardSize}
+        countries={countries}
+        setGameOver={setGameOver}
+      />
       {gameOver ? (
         <div className='board-footer'>
           You win, well done!{'\n'}
           <Button
             handleClick={() => {
-              fetchCountries().then(() => setGameOver(false))
+              fetchCountries(boardSize).then(() => setGameOver(false))
             }}
             text='Play again'
           />
