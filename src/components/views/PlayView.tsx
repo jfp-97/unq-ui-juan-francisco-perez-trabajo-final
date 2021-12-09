@@ -14,7 +14,18 @@ interface PlayViewProps {
 const PlayView = (props: PlayViewProps) => {
   const [countries, setCountries] = useState<Pair<string>[]>([])
   const [gameOver, setGameOver] = useState<boolean>(false)
+  const [currentPlayer, setCurrentPlayer] = useState<number>(0)
   const boardSize = props.settings.boardSize
+  const [scores, setScores] = useState<number[]>([0, 0])
+
+  const advanceTurn = () => {
+    setCurrentPlayer((current: number) => (current === 1 ? 0 : 1))
+  }
+  const currentPlayerScored = () => {
+    setScores((scores) =>
+      scores.map((score, index) => score + (index === currentPlayer ? 1 : 0))
+    )
+  }
 
   const fetchCountries = (size: number) => {
     return getCountries((size * size) / 2)
@@ -29,13 +40,15 @@ const PlayView = (props: PlayViewProps) => {
   return (
     <div>
       {props.settings.amountOfPlayers > 1 ? (
-        <ScoreBoard currentPlayer={1} />
+        <ScoreBoard currentPlayer={currentPlayer} scores={scores} />
       ) : null}
 
       <Board
         boardSize={boardSize}
         countries={countries}
         setGameOver={setGameOver}
+        advanceTurn={advanceTurn}
+        currentPlayerScored={currentPlayerScored}
       />
       {gameOver ? (
         <div className='board-footer'>
