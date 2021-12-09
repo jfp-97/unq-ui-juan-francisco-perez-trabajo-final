@@ -8,10 +8,14 @@ import StartView from './components/views/StartView'
 
 export interface Settings {
   boardSize: number
+  amountOfPlayers: number
 }
 
 const App = () => {
-  const [settings, setSettings] = useState<Settings>({ boardSize: 4 })
+  const [settings, setSettings] = useState<Settings>({
+    boardSize: 4,
+    amountOfPlayers: 1,
+  })
   return (
     <div>
       <BrowserRouter>
@@ -21,7 +25,9 @@ const App = () => {
             <Route path='play' element={<PlayView settings={settings} />} />
             <Route
               path='settings'
-              element={<SettingsView setSettings={setSettings} />}
+              element={
+                <SettingsView settings={settings} setSettings={setSettings} />
+              }
             />
           </Route>
         </Routes>

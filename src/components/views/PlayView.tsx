@@ -4,6 +4,7 @@ import getCountries from '../../services/contentService'
 import { Pair } from '../../types/pair'
 import Button from '../atoms/Button'
 import Board from '../molecules/Board'
+import ScoreBoard from '../molecules/ScoreBoard'
 import './PlayView.css'
 
 interface PlayViewProps {
@@ -27,6 +28,10 @@ const PlayView = (props: PlayViewProps) => {
 
   return (
     <div>
+      {props.settings.amountOfPlayers > 1 ? (
+        <ScoreBoard currentPlayer={1} />
+      ) : null}
+
       <Board
         boardSize={boardSize}
         countries={countries}

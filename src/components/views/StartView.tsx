@@ -14,7 +14,11 @@ const StartView = ({ setSettings }: StartViewProps) => {
       <Button
         text={'Quick game'}
         handleClick={() => {
-          setSettings((s: Settings) => ({ ...s, boardSize: 4 }))
+          setSettings((s: Settings) => ({
+            ...s,
+            boardSize: 4,
+            amountOfPlayers: 1,
+          }))
           navigate('/play')
         }}
       />
