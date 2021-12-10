@@ -4,22 +4,21 @@ import './ScoreBoard.css'
 interface ScoreBoardProps {
   currentPlayer: number
   scores: number[]
+  colors: string[]
 }
 
 const ScoreBoard = (props: ScoreBoardProps) => {
-  const colors = ['green', 'red']
-
   return (
     <div className='scoreBoardContainer'>
-      <div className='currentPlayer'>
+      <div className='player'>
         Current turn:
-        <div className={`currentPlayer score-${colors[props.currentPlayer]}`}>
+        <div className={`player score-${props.colors[props.currentPlayer]}`}>
           Player {props.currentPlayer + 1}
         </div>
       </div>
       <div className='scoreBoard'>
-        <Score player={1} score={props.scores[0]} color={colors[0]} />
-        <Score player={2} score={props.scores[1]} color={colors[1]} />
+        <Score player={1} score={props.scores[0]} color={props.colors[0]} />
+        <Score player={2} score={props.scores[1]} color={props.colors[1]} />
       </div>
     </div>
   )

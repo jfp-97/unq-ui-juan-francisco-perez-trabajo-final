@@ -17,6 +17,7 @@ const PlayView = (props: PlayViewProps) => {
   const [currentPlayer, setCurrentPlayer] = useState<number>(0)
   const boardSize = props.settings.boardSize
   const [scores, setScores] = useState<number[]>([0, 0])
+  const colors = ['green', 'red']
 
   const advanceTurn = () => {
     setCurrentPlayer((current: number) => (current === 1 ? 0 : 1))
@@ -37,10 +38,49 @@ const PlayView = (props: PlayViewProps) => {
     fetchCountries(boardSize)
   }, [boardSize])
 
+  const winner = () => {
+    return scores[0] > scores[1] ? 1 : 2
+  }
+
+  const displayWinner = () => {
+    return scores[0] === scores[1] ? (
+      <div className='player'>It's a tie</div>
+    ) : (
+      <div className='player'>
+        <div className={`player score-${colors[winner() - 1]}`}>
+          Player {winner()}
+        </div>{' '}
+        wins, congratulations!
+      </div>
+    )
+  }
+
   return (
     <div>
-      {props.settings.amountOfPlayers > 1 ? (
-        <ScoreBoard currentPlayer={currentPlayer} scores={scores} />
+      {!gameOver && props.settings.amountOfPlayers > 1 ? (
+        <ScoreBoard
+          colors={colors}
+          currentPlayer={currentPlayer}
+          scores={scores}
+        />
+      ) : null}
+
+      {gameOver ? (
+        <div className='board-top'>
+          {props.settings.amountOfPlayers > 1
+            ? displayWinner()
+            : 'You win, well done!\n'}
+          <Button
+            handleClick={() => {
+              fetchCountries(boardSize).then(() => {
+                setGameOver(false)
+                setCurrentPlayer(0)
+                setScores([0, 0])
+              })
+            }}
+            text='Play again'
+          />
+        </div>
       ) : null}
 
       <Board
@@ -50,17 +90,6 @@ const PlayView = (props: PlayViewProps) => {
         advanceTurn={advanceTurn}
         currentPlayerScored={currentPlayerScored}
       />
-      {gameOver ? (
-        <div className='board-footer'>
-          You win, well done!{'\n'}
-          <Button
-            handleClick={() => {
-              fetchCountries(boardSize).then(() => setGameOver(false))
-            }}
-            text='Play again'
-          />
-        </div>
-      ) : null}
     </div>
   )
 }
