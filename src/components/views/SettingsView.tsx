@@ -19,8 +19,9 @@ const SettingsView = ({ settings, setSettings }: SettingsViewProps) => {
   return (
     <div className='settingsContainer'>
       <div className='selectContainer'>
-        <div>Choose board size: </div>
+        <div className='selectText'>Choose board size: </div>
         <select
+          className='selector'
           value={boardSize}
           onChange={(event) => {
             setBoardSize(parseInt(event.target.value))
@@ -32,8 +33,9 @@ const SettingsView = ({ settings, setSettings }: SettingsViewProps) => {
         </select>
       </div>
       <div className='selectContainer'>
-        <div>Choose amount of players: </div>
+        <div className='selectText'>Choose amount of players: </div>
         <select
+          className='selector'
           value={amountOfPlayers}
           onChange={(event) => {
             setAmountOfPlayers(parseInt(event.target.value))
