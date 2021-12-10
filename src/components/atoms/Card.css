@@ -6,6 +6,9 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
 }
 
 .cardContainerUncovered {
@@ -15,8 +18,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  transform: rotateY(180deg);
 }
 
 .cardContent {
   width: 5rem;
+}
+
+.card {
+  perspective: 100%;
+}
+
+.card.active .cardWrapper {
+  transform: rotateY(180deg);
+}
+
+.cardWrapper {
+  transition: 0.8s;
+  transform-style: preserve-3d;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
