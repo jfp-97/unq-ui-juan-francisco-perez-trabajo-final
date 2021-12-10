@@ -72,6 +72,7 @@ const PlayView = (props: PlayViewProps) => {
             : 'You win, well done!\n'}
           <Button
             handleClick={() => {
+              setCountries([])
               fetchCountries(boardSize).then(() => {
                 setGameOver(false)
                 setCurrentPlayer(0)
